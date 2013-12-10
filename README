@@ -24,7 +24,9 @@ You can launch our code by running :
 
 >> run_classifier('DB/Willow-actions', {'trainval' 'test'}, 'C2'); 
 
-The first parameter is the path to the database you want to use.
+The first parameter is the path to the database you want to use. It available on
+http://www.di.ens.fr/willow/research/stillactions/willowactions.zip
+
 The second argument defines the training set and the testing set. Willow-actions
 uses the same conventions that the PASCAL VOC challenge uses. The training set
 is made of two sub-sets: the training and validation sets, referenced by 'train'
