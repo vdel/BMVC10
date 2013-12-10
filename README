@@ -1,0 +1,38 @@
+This code was used to produce the results described in the paper:
+"Recognizing human actions in still images: a study of bag-of-features and 
+part-based representations", Vincent Delaitre, Ivan Laptev, Josef Sivic, In
+Proceedings of the British Machine Vision Conference.
+
+If you use this code, please cite our work:
+
+@inproceedings{Delaitre10,
+  title = "Recognizing human actions in still images: a study of bag-of-features and part-based representations",
+  author = "Delaitre, V. and Laptev, I. and Sivic, J.",
+  year = "2010",
+  address = "Aberystwyth, United Kingdom",
+  booktitle = "Proceedings of the British Machine Vision Conference",
+}
+
+
+Quick start
+===========
+
+Change Matlab's current directory into the directory of this README and 
+setup Matlab's path by typing "setup" in Matlab command line.
+
+You can launch our code by running :
+
+>> run_classifier('DB/Willow-actions', {'trainval' 'test'}, 'C2'); 
+
+The first parameter is the path to the database you want to use.
+The second argument defines the training set and the testing set. Willow-actions
+uses the same conventions that the PASCAL VOC challenge uses. The training set
+is made of two sub-sets: the training and validation sets, referenced by 'train'
+and 'val' respectively. The concatenation of the two is designated by 
+'trainval'. The testing set is called 'test'.
+The third argument is the configuration you want to use: 'A', 'B', 'C1' or 'C2'.
+See the paper for more informations about configurations.
+
+See 'examples.m' for more detailed examples about 'run_classifier'.
+	
+	
