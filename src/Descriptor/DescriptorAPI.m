@@ -45,7 +45,11 @@ classdef DescriptorAPI
                 use_cache = 1;
             end
             
-            file = fullfile(TEMP_DIR, sprintf('%d_%d-%s.mat', DB_HASH, zone, obj.toFileName()));
+            if ~ischar(DB_HASH)
+                DB_HASH = sprintf('%d', DB_HASH);
+            end
+            
+            file = fullfile(TEMP_DIR, sprintf('%s_%d-%s.mat', DB_HASH, zone, obj.toFileName()));
             if exist(file,'file') == 2 && use_cache
                 fprintf('Loading descriptors from %s\n',file);
                 load(file, 'feat', 'descr');

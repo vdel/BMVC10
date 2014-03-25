@@ -83,7 +83,7 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
             file = fullfile(TEMP_DIR, sprintf('%d_%s.mat',DB_HASH,obj.toFileName()));
             
             ok = 0;            
-            if 0 & exist(file,'file') == 2  
+            if exist(file,'file') == 2  
                 fprintf('Loading classifier from cache: %s\n', file);
                 load(file, 'svm', 'best_params', 'params', 'cv_prec', 'cv_dev_prec', 'cv_acc', 'cv_dev_acc');
                 if exist('best_params', 'var') == 1
@@ -174,7 +174,10 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
         %------------------------------------------------------------------
         % Classify the testing database 'DB'
         function [scores assigned_classes] = classify(obj, images)
+            global DB_HASH;
             fprintf('Classifying\n');
+            
+            hash = DB_HASH;            
             
             batchsize = 1000;
             n_img = length(images);
@@ -184,8 +187,9 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
             
             for k = 1:batchsize:n_img
                 thisbatchsize = min(batchsize, n_img-k+1);
-                batch  = k:(k+thisbatchsize-1);
+                batch  = k:(k+thisbatchsize-1);                
                 img = images(batch);
+                DB_HASH = sprintf('%d_%d_%d', hash, batch(1), batch(end));
                         
                 obj.kernel.prepare_for_testing(img);
                             
@@ -193,6 +197,8 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
                 assigned_classes(batch, :) = assign_c;
                 scores(batch, :) = sc;
             end
+            
+            DB_HASH = hash;
         end
         
         %------------------------------------------------------------------

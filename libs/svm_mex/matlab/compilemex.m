@@ -1,6 +1,7 @@
 function compilemex( )
 
 try
+    [~, ~] = mkdir('../bin');
 	cd ../bin
 
 	fprintf(1,'Compiling mexsvmlearn\n');

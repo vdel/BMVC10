@@ -42,7 +42,6 @@ function [images classes] = get_DB_images(DB, msg)
             tot = tot + n_img;
             fprintf('%s: %d instances\n', classes.names{i}, n_img);
         end  
-        tot = tot + n_img_no_label;
         fprintf('------------\nTotal: %d instances\n\n', tot);
     end
 end
@@ -74,23 +73,21 @@ function [images classes] = get_labeled_files_VOC(DB)
     
     for i = 1:n_classes
         fid = fopen(fullfile(root, files(i).name));
-        ids = cell(0,3);
-        while ~feof(fid)
-            line = fgetl(fid);
-            ids(end+1,:) = textscan(line, '%s %d %d');
-        end
+        ids = textscan(fid, '%s %d %d');        
         fclose(fid);
-        for j = 1:size(ids,1)
-            img_id = sprintf('%s@%d', ids{j,1}{1}, ids{j,2});
+        ids{2} = double(ids{2});
+        ids{3} = double(ids{3});        
+        for j = 1:length(ids{1})
+            img_id = sprintf('%s@%d', ids{1}{j}, ids{2}(j));
             if img.isKey(img_id)
-                if ids{j,3} == 1
+                if ids{3}(j) == 1
                     act = img(img_id);
                     act(i) = 1;
                     img(img_id) = act;
                 end
             else
                 act = zeros(1, n_classes); 
-                if ids{j,3} == 1
+                if ids{3}(j) == 1
                     act(i) = 1;
                 end
                 img(img_id) = act;
