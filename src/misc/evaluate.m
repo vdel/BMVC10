@@ -45,9 +45,9 @@ function [accuracy precision] = evaluate(classifier, db, target, sets_names)
             fprintf('Classifier loaded from file %s\n',file); 
         else
             [images classes] = get_DB_images(make_DB_name(db, sets_names{1}), 'Loading training set...\n');
-            [params cv_prec cv_dev_prec cv_acc cv_dev_acc] = classifier.train(images, classes);
+            classifier.train(images, classes);
             %save(file, 'classifier');
-            save(fullfile(dir, 'cv_log.mat'), 'params', 'cv_prec', 'cv_dev_prec', 'cv_acc', 'cv_dev_acc');  
+            %save(fullfile(dir, 'cv_log.mat'), 'params', 'cv_prec', 'cv_dev_prec', 'cv_acc', 'cv_dev_acc');  
         end
         t0 = toc;
 

@@ -1,21 +1,20 @@
 
-classdef MNR < ClassifierAPI & CrossValidateAPI
+classdef MNR < ClassifierAPI 
     % Support Vector Machine Classifier
 
     properties
-        input_classifier
-        classes
+        classifier
         labels
     end
         
     methods
         %------------------------------------------------------------------
         % Constructor
-        function obj = MNR(input_classifier)
+        function obj = MNR(classifier)
             % input_classifier: the input classifier
             
             obj = obj@ClassifierAPI();
-            obj.input_classifier = input_classifier;
+            obj.classifier = classifier;
         end
         
         %------------------------------------------------------------------

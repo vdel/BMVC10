@@ -74,7 +74,7 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
         %------------------------------------------------------------------
         % Learns from the training directory 'root', eventually do a cross
         % validation
-        function [params cv_prec cv_dev_prec cv_acc cv_dev_acc] = train(obj, images, classes)
+        function train(obj, images, classes)
             global TEMP_DIR DB_HASH;
             
             if isempty(find([images(:).flipped], 1))
