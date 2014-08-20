@@ -1,6 +1,4 @@
 function [images classes] = get_DB_images(DB, msg)
-    global DB_HASH;
-    
     if nargin > 1
         fprintf(msg);
     end
@@ -28,13 +26,10 @@ function [images classes] = get_DB_images(DB, msg)
         end
         actions = cat(1, images(:).actions);
     end      
-    
-    DB_HASH = get_hash(images);
         
     if nargin > 1
         n_classes = length(classes.names);
         fprintf('Found %d classes (%d sub-classes)\n', length(classes.parentNames), n_classes);
-        fprintf('Hash ID: %d\n', DB_HASH);
         fprintf('Stats:\n');
         tot = 0;        
         for i=1:n_classes
