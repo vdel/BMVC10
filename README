@@ -18,7 +18,7 @@ Quick start
 ===========
 
 Change Matlab's current directory into the directory of this README and 
-setup Matlab's path by typing "setup" in Matlab command line.
+setup Matlab's path by typing "bmvc_setup" in Matlab command line.
 
 You can launch our code by running :
 

@@ -37,7 +37,7 @@
 
 /* Common Block Declarations */
 
-long verbosity;
+extern long verbosity;
 
 # define PRIMAL_OPTIMAL      1
 # define DUAL_OPTIMAL        2
