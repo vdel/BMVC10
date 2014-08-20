@@ -87,24 +87,12 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
             
             DB_HASH = get_hash(images);
             file = fullfile(TEMP_DIR, sprintf('%d_%s.mat',DB_HASH,obj.toFileName()));
-            
-            ok = 0;            
+                        
             if exist(file,'file') == 2  
                 fprintf('Loading classifier from cache: %s\n', file);
-                load(file, 'svm', 'best_params', 'params', 'cv_prec', 'cv_dev_prec', 'cv_acc', 'cv_dev_acc');
-                if exist('best_params', 'var') == 1
-                    if obj.do_cv
-                        obj.CV_set_params(best_params);
-                        obj.svm = svm;
-                        fprintf('Loaded.\n');
-                        ok = 1;
-                    end
-                else
-                    fprintf('Failed.\n');
-                end                
-            end
-                        
-            if ~ok                                                             
+                load(file, 'obj', 'best_params');                                 
+                fprintf('Loaded.\n');
+            else
                 fprintf('Learn signatures...\n');
                 obj.kernel.train_sigs(images);    
             
@@ -119,12 +107,7 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
                     obj.kernel.prepare_for_training();
 
                     obj.train_svm();                
-                    svm = obj.svm; 
                 
-                    if length(file)<=255
-                        save(file,'svm', 'params', 'best_params', 'cv_prec', 'cv_dev_prec', 'cv_acc', 'cv_dev_acc');
-                    end
-
                     fprintf('Best parameters:\nSVM C parameter = %f\n',obj.C);
                     fprintf('Kernel parameter(s) = [%s]\n',sprintf('%.2f ',best_params(2:end)));   
                 else
@@ -133,10 +116,15 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
                     cv_dev_prec = [];
                     cv_acc = [];
                     cv_dev_acc = [];
+                    best_params = [];
                     
                     obj.kernel.prepare_for_training();
                     obj.train_svm(); 
-                end                
+                end    
+                
+                if length(file)<=255
+                    save(file, 'obj', 'best_params', 'params', 'cv_prec', 'cv_dev_prec', 'cv_acc', 'cv_dev_acc');
+                end
             end
         end
         
@@ -183,7 +171,7 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
             global DB_HASH;
             fprintf('Classifying\n');
             
-            hash = get_hash(train);        
+            hash = get_hash(images);        
             
             batchsize = 1000;
             n_img = length(images);
