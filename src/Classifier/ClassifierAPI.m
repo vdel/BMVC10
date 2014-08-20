@@ -35,6 +35,22 @@ classdef ClassifierAPI < handle
         str = toString(obj)
         str = toFileName(obj)
         str = toName(obj)
+    end
+    
+    methods (Static) 
+        %------------------------------------------------------------------
+        % Flip images
+        function fimg = flip_images(images)
+            fimg = images;
+            
+            n = length(fimg);
+            for i = 1 : n
+                fimg(i).flipped = ~fimg(i).flipped;
+                fimg(i).number = n + fimg(i).number;
+                info = imfinfo(fimg(i).path);
+                fimg(i).bndbox([1 3]) = info.Width - fimg(i).bndbox([3 1]) + 1;
+            end
+        end
     end    
 end
 

@@ -77,6 +77,11 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
         function [params cv_prec cv_dev_prec cv_acc cv_dev_acc] = train(obj, images, classes)
             global TEMP_DIR DB_HASH;
             
+            if isempty(find([images(:).flipped], 1))
+                images = reshape(images, numel(images), 1);
+                images = [images; obj.flip_images(images)];
+            end
+            
             obj.classes = classes;
             obj.labels = cat(1,images(:).actions);                    
             

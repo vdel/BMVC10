@@ -80,7 +80,8 @@ def process(options, args):
             raise Exception("Error when executing '%s': command returned error" % cmdLine)
             
         (points, descriptors) = DescriptorIO.readDescriptors(tempFilename)
-        clusterInput.append(descriptors)
+        if descriptors.size > 0:
+            clusterInput.append(descriptors)
         
     os.remove(tempFilename)
 

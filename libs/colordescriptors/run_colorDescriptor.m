@@ -1,22 +1,19 @@
 function [feat descr] = run_colorDescriptor(Ipath, args, scale, flip, load_feat)
     global FILE_BUFFER_PATH LIB_DIR;
     
+    dir = FILE_BUFFER_PATH;
     if(strcmp(computer, 'PCWIN'))
-        dir = FILE_BUFFER_PATH;
-        cmd = [fullfile(LIB_DIR,'colordescriptors','i386-win-vc','colorDescriptor.exe') ' --noErrorLog '];        
-    else
-        if(strcmp(computer, 'GLNX86'))
-            dir = FILE_BUFFER_PATH;
-            cmd = [fullfile(LIB_DIR,'colordescriptors','i386-linux-gcc','colorDescriptor') ' --noErrorLog '];
-        else
-            if(strcmp(computer, 'GLNXA64'))
-                dir = FILE_BUFFER_PATH;
-                cmd = [fullfile(LIB_DIR,'colordescriptors','x86_64-linux-gcc','colorDescriptor') ' --noErrorLog '];
-            else            
-                throw(MException('','Unknown OS'));
-            end
-        end
+        arch = 'i386-win-vc\colorDescriptor.exe'; 
+    elseif(strcmp(computer, 'GLNX86'))
+        arch = 'i386-linux-gcc/colorDescriptor';
+    elseif(strcmp(computer, 'GLNXA64'))
+        arch = 'x86_64-linux-gcc/colorDescriptor';
+    elseif(strcmp(computer, 'MACI64'))
+        arch = 'x86_64-darwin-gcc/colorDescriptor';
+    else            
+        throw(MException('','Unknown OS'));
     end
+    cmd = [fullfile(LIB_DIR,'colordescriptors',arch) ' --noErrorLog '];
     
     if(nargin == 5)
         input_file = fullfile(dir,'input');
