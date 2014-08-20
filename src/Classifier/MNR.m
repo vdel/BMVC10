@@ -5,6 +5,7 @@ classdef MNR < ClassifierAPI
     properties
         classifier
         labels
+        W
     end
         
     methods
@@ -31,6 +32,7 @@ classdef MNR < ClassifierAPI
             obj.classes = classes;
             obj.labels = cat(1,val(:).actions);                    
             
+            DB_HASH = get_hash(train);
             file = fullfile(TEMP_DIR, sprintf('%d_%s.mat',DB_HASH,obj.toFileName()));          
             if exist(file,'file') == 2  
                 fprintf('Loading classifier from cache: %s\n', file);
@@ -42,10 +44,11 @@ classdef MNR < ClassifierAPI
                 scores = obj.classifier.classify(val);
                 
                 W = mnrfit(scores, bsxfun(@rdivide, obj.labels, sum(obj.labels, 2)));
+                W = [W zeros(size(W, 1), 1)];
                 classifier = obj.classifier;
                 save(file, 'classifier', 'W');
                 
-                obj.W = [W zeros(size(W, 1), 1)];
+                obj.W = W;
             end               
         end
         
@@ -54,8 +57,10 @@ classdef MNR < ClassifierAPI
         function [scores, assigned_classes] = classify(obj, images)
             fprintf('Classifying\n');
             scores = obj.classifier.classify(images);
-            scores = [ones(size(scores, 1), 1) scores] * W;
-            [~, assigned_classes] = max(scores, [], 2);
+            scores = [ones(size(scores, 1), 1) scores] * obj.W;
+            [~, a] = max(scores, [], 2);
+            assigned_classes = zeros(size(scores, 1), length(obj.classes.names));
+            assigned_classes((a - 1) * size(scores, 1) + (1 : size(scores, 1))') = 1;
         end
         
                 

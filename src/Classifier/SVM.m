@@ -85,6 +85,7 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
             obj.classes = classes;
             obj.labels = cat(1,images(:).actions);                    
             
+            DB_HASH = get_hash(images);
             file = fullfile(TEMP_DIR, sprintf('%d_%s.mat',DB_HASH,obj.toFileName()));
             
             ok = 0;            
@@ -182,7 +183,7 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
             global DB_HASH;
             fprintf('Classifying\n');
             
-            hash = DB_HASH;            
+            hash = get_hash(train);        
             
             batchsize = 1000;
             n_img = length(images);
