@@ -142,7 +142,7 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
         %------------------------------------------------------------------
         % Train the SVMs
         function obj = train_svm(obj)
-            n_classes = size(obj.classes.names, 1);
+            n_classes = length(obj.classes.names);
                        
             n_img = size(obj.labels, 1);
                 

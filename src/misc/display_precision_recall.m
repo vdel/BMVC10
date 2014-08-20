@@ -3,8 +3,8 @@ function mAP = display_precision_recall(classes, correct_labels, score, fig)
         fig=0; 
     end
 
-    n_classes = size(classes, 1);
-    precision = size(n_classes, 1);
+    n_classes = length(classes);
+    precision = zeros(n_classes, 1);
     
     fprintf('\nPer class AP:\n');
     for i=1:n_classes

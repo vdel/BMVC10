@@ -24,7 +24,7 @@ classdef ClassifierAPI < handle
     methods (Abstract)        
         %------------------------------------------------------------------
         % Learns from the training directory 'root'
-        [cv_prec cv_dev_prec cv_acc cv_dev_acc] = train(obj, images, classes)
+        train(obj, images, classes)
         
         %------------------------------------------------------------------
         % Classify the testing directory 'root'
