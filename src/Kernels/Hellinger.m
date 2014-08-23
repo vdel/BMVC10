@@ -47,10 +47,10 @@ classdef Hellinger < KernelAPI
         % such that: gram_matrix(i,j) = <K(i)|K(j)>
         function pre_gram = precompute_gram_matrix(obj, sigs1, sigs2)
             sigs1 = sqrt(sigs1);
-            sigs2 = sqrt(sigs2);
             if nargin<3
                 pre_gram = sigs1' * sigs1;
             else
+                sigs2 = sqrt(sigs2);
                 pre_gram = sigs1' * sigs2;
             end
         end
