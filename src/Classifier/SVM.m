@@ -90,7 +90,10 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
                         
             if exist(file,'file') == 2  
                 fprintf('Loading classifier from cache: %s\n', file);
-                load(file, 'obj', 'best_params');                                 
+                load(file, 'svm', 'signatures', 'best_params');                                 
+                obj.svm = svm;
+                obj.kernel.signatures = signatures;
+                obj.CV_set_params(best_params);
                 fprintf('Loaded.\n');
             else
                 fprintf('Learn signatures...\n');
@@ -123,7 +126,9 @@ classdef SVM < ClassifierAPI & CrossValidateAPI
                 end    
                 
                 if length(file)<=255
-                    save(file, 'obj', 'best_params', 'params', 'cv_prec', 'cv_dev_prec', 'cv_acc', 'cv_dev_acc');
+                    svm = obj.svm;
+                    signatures = obj.kernel.signatures;
+                    save(file, 'svm', 'signatures', 'best_params', 'params', 'cv_prec', 'cv_dev_prec', 'cv_acc', 'cv_dev_acc');
                 end
             end
         end

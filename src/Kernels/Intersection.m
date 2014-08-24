@@ -68,8 +68,8 @@ classdef Intersection < KernelAPI
                     end
                 else                    
                     for j=1:n2
-                        c = min(sigs1, repmat(sigs1(:,j), 1, n1));
-                        pre_gram(1:end,j) = sum(c,1)';
+                        c = bsxfun(@min, sigs1, sigs1(:,j));
+                        pre_gram(:,j) = sum(c,1)';
                     end
                 end
             else
